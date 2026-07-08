@@ -5,9 +5,10 @@ cd /d "%~dp0"
 echo [ps5-to-xbox] Installer
 echo.
 
-call :find_python
+call "%~dp0find-python.cmd"
 if errorlevel 1 goto :no_python
 
+:install_with_python
 echo Using Python: %PYTHON_CMD%
 %PYTHON_CMD% --version
 echo.
@@ -39,30 +40,28 @@ echo.
 echo Note: vgamepad may open the ViGEmBus driver installer and ask for admin approval.
 exit /b 0
 
-:find_python
-py -3.12 --version >nul 2>&1 && set "PYTHON_CMD=py -3.12" && exit /b 0
-py -3 --version >nul 2>&1 && set "PYTHON_CMD=py -3" && exit /b 0
-python --version >nul 2>&1 && set "PYTHON_CMD=python" && exit /b 0
-
+:no_python
 echo Python was not found.
 where winget >nul 2>&1
-if errorlevel 1 exit /b 1
+if errorlevel 1 goto :python_failed
 
 echo Trying to install Python 3.12 with winget...
 winget install -e --id Python.Python.3.12 --source winget
-if errorlevel 1 exit /b 1
 
-py -3.12 --version >nul 2>&1 && set "PYTHON_CMD=py -3.12" && exit /b 0
-py -3 --version >nul 2>&1 && set "PYTHON_CMD=py -3" && exit /b 0
-python --version >nul 2>&1 && set "PYTHON_CMD=python" && exit /b 0
-exit /b 1
+call "%~dp0find-python.cmd"
+if not errorlevel 1 goto :python_found_after_winget
 
-:no_python
+:python_failed
 echo.
 echo Python could not be installed automatically.
 echo Install Python 3.12 from https://www.python.org/downloads/windows/
 echo Then close this window, open a new cmd, and run install.cmd again.
 exit /b 1
+
+:python_found_after_winget
+echo.
+echo Python is now available as: %PYTHON_CMD%
+goto :install_with_python
 
 :pip_failed
 echo.

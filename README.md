@@ -68,6 +68,14 @@ python -m pip install -r requirements.txt
 python -m pip install -e . --no-deps
 ```
 
+Python kurulu oldugu halde `Python was not found` gorulurse:
+
+- GitHub'dan son dosyalari tekrar indirin ya da `git pull` yapin.
+- Komut istemini kapatip yeni bir `cmd` acin.
+- Tekrar `install.cmd` calistirin.
+
+Yeni scriptler `py`, `python`, `python3` ve yaygin Python kurulum klasorlerini otomatik arar. Bu, `winget` Python'u kurulu gosterip PATH henuz guncellenmediginde de calismasi icindir.
+
 ## Kullanim
 
 Kolu USB ile baglayin, sonra:

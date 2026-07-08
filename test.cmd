@@ -4,15 +4,9 @@ cd /d "%~dp0"
 set "PYTHONDONTWRITEBYTECODE=1"
 set "PYTHONPATH=%CD%\src;%PYTHONPATH%"
 
-py -3 --version >nul 2>&1
+call "%~dp0find-python.cmd"
 if not errorlevel 1 (
-  py -3 -m unittest discover -s tests
-  exit /b %ERRORLEVEL%
-)
-
-python --version >nul 2>&1
-if not errorlevel 1 (
-  python -m unittest discover -s tests
+  %PYTHON_CMD% -m unittest discover -s tests
   exit /b %ERRORLEVEL%
 )
 
