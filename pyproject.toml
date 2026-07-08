@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ps5-to-xbox"
+version = "0.1.0"
+description = "Low-latency DualSense to virtual Xbox 360 controller bridge for Windows."
+requires-python = ">=3.10"
+dependencies = [
+  "hidapi>=0.15.0",
+  "vgamepad>=0.1.0",
+]
+
+[project.scripts]
+ps5-to-xbox = "ps5_to_xbox.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
